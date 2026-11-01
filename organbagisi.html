@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organ Bağışı - SağlıkAsistanım</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bagis-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #334155;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="portal-body" style="background-color: #f1f5f9; display: block;">
+
+    <div class="bagis-container">
+        <h2 style="color: #e63946; margin-bottom: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+            <i class="fa-solid fa-hand-holding-heart"></i> Organ ve Doku Bağışı Formu
+        </h2>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 25px;">
+            Tıbben yaşamınızın sona erdiği saptandıktan sonra, organ ve dokularınızı bağışlayarak başka insanlara hayat verebilirsiniz.
+        </p>
+
+        <form id="organBagisFormu">
+            <label class="checkbox-label" style="font-weight: bold; font-size: 16px; color: #0f172a; margin-bottom: 10px;">
+                <input type="checkbox" id="tumOrganlar" style="width: 18px; height: 18px;"> Tüm Organ ve Dokularımı Bağışlamak İstiyorum
+            </label>
+
+            <div class="checkbox-grid">
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Kalp"> Kalp</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Karaciğer"> Karaciğer</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Böbrek"> Böbrek</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Pankreas"> Pankreas</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Akciğer"> Akciğer</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Kornea"> Kornea</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="İnce Bağırsak"> İnce Bağırsak</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Kalp Kapağı"> Kalp Kapağı</label>
+                <label class="checkbox-label"><input type="checkbox" class="organ-sec" value="Kemik İliği"> Kemik İliği</label>
+            </div>
+
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 25px;">
+                <label style="display: flex; gap: 12px; align-items: flex-start; cursor: pointer;">
+                    <input type="checkbox" required style="width: 25px; height: 25px; margin-top: 2px;">
+                    <span style="font-size: 14px; color: #334155; line-height: 1.6;">
+                        Yukarıda belirttiğim organ ve dokularımın, tıbben yaşamımın sona erdiği saptandıktan sonra, tedavisi ancak organ nakli ile mümkün olan hastalar için kullanılmasına kendi serbest ve hür irademle onay veriyorum.
+                    </span>
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button type="submit" style="flex: 1; padding: 14px; background-color: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">Bağışı Onayla ve Gönder</button>
+                <button type="button" onclick="window.location.href='anasayfa.html'" style="flex: 1; padding: 14px; background-color: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">İptal Et</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // "Tüm Organlar" kutusu işaretlenince hepsini seçme özelliği
+        document.getElementById('tumOrganlar').addEventListener('change', function() {
+            const kutular = document.querySelectorAll('.organ-sec');
+            kutular.forEach(kutu => {
+                kutu.checked = this.checked;
+            });
+        });
+
+        // Form onaylandığında çalışacak kod
+        document.getElementById('organBagisFormu').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const secilenler = document.querySelectorAll('.organ-sec:checked');
+            const tumOrganlar = document.getElementById('tumOrganlar').checked;
+
+            if (secilenler.length === 0 && !tumOrganlar) {
+                alert('Lütfen bağışlamak istediğiniz en az bir organı seçin.');
+                return;
+            }
+
+            const aktifTC = localStorage.getItem('aktifKullaniciTC');
+            if (!aktifTC) {
+                alert('Oturum süreniz dolmuş, lütfen tekrar giriş yapın.');
+                window.location.href = 'giriş.html';
+                return;
+            }
+
+            // --- HANGİ ORGANLARIN SEÇİLDİĞİNİ HAFIZAYA KAYDETME KISMI ---
+            if (tumOrganlar) {
+                localStorage.setItem('bagislananOrganlar_' + aktifTC, 'Tüm Doku ve Organlar');
+            } else {
+                let secilenOrganMetni = Array.from(secilenler).map(kutu => kutu.value).join(', ');
+                localStorage.setItem('bagislananOrganlar_' + aktifTC, secilenOrganMetni);
+            }
+
+            // Bağışı TC kimlik numarasına bağlayarak sisteme kaydet
+            localStorage.setItem('organBagisi_' + aktifTC, 'onaylandi');
+            
+            alert('Organ bağışınız başarıyla alınmıştır. İnsanlığa yaptığınız bu umut dolu katkı için sonsuz teşekkür ederiz!');
+            window.location.href = 'anasayfa.html'; // Ana sayfaya geri dön
+        });
+    </script>
+</body>
+</html>

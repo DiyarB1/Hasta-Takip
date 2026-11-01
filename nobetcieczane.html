@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nöbetçi Eczane - SağlıkAsistanım</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-container { max-width: 700px; margin: 80px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .eczane-kart { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 10px; text-align: left; }
+        .eczane-kart h4 { color: #0284c7; margin-bottom: 5px; }
+        .eczane-kart p { font-size: 14px; color: #475569; margin-bottom: 5px; }
+    </style>
+</head>
+<body class="portal-body" style="background-color: #f1f5f9; display: block;">
+    <div class="page-container">
+        <h2 style="color: #2a9d8f; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">
+            <i class="fa-solid fa-house-medical-flag"></i> Nöbetçi Eczane Bulucu
+        </h2>
+        <!-- Eczaneler Buraya Gelecek -->
+        <div id="eczaneListesi" style="margin-bottom: 30px;">Yükleniyor...</div>
+        
+        <button type="button" onclick="window.location.href='anasayfa.html'" style="padding: 12px 30px; background-color: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer;">
+            <i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:3000/api/eczane');
+                const data = await response.json();
+                let html = '';
+                if(data.success) {
+                    data.data.forEach(ecz => {
+                        html += `
+                        <div class="eczane-kart">
+                            <h4><i class="fa-solid fa-prescription-bottle-medical"></i> ${ecz.ad}</h4>
+                            <p><i class="fa-solid fa-location-dot"></i> ${ecz.adres}</p>
+                            <p><i class="fa-solid fa-phone"></i> ${ecz.telefon}</p>
+                        </div>`;
+                    });
+                    document.getElementById('eczaneListesi').innerHTML = html;
+                }
+            } catch (err) {
+                document.getElementById('eczaneListesi').innerHTML = 'Veriler çekilirken hata oluştu.';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişisel Bilgiler - Hasta Takip</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .wide-container { max-width: 600px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-grid .input-group { margin-bottom: 0; }
+        .full-width { grid-column: span 2; }
+        select, textarea { width: 100%; padding: 12px; border: 1px solid #bdc3c7; border-radius: 6px; outline: none; transition: border-color 0.3s; font-size: 14px; }
+        select:focus, textarea:focus { border-color: #3498db; }
+        .info-text { margin-bottom: 25px; color: #7f8c8d; font-size: 14px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container wide-container">
+        <h2>Kişisel Profilinizi Tamamlayın</h2>
+        <p class="info-text">Sistemi tam anlamıyla kullanabilmeniz için lütfen eksik olan tıbbi, iletişim ve sigorta bilgilerinizi doldurun.</p>
+        
+        <form id="kisiselBilgiForm">
+            <div class="form-grid">
+                <div class="input-group"><label for="babaAdi">Baba Adı</label><input type="text" id="babaAdi" required placeholder="Baba adı"></div>
+                <div class="input-group"><label for="anneAdi">Anne Adı</label><input type="text" id="anneAdi" required placeholder="Anne adı"></div>
+                
+                <div class="input-group">
+                    <label for="kanGrubu">Kan Grubu</label>
+                    <select id="kanGrubu" required>
+                        <option value="">Seçiniz...</option>
+                        <option value="A+">A Rh(+)</option><option value="A-">A Rh(-)</option>
+                        <option value="B+">B Rh(+)</option><option value="B-">B Rh(-)</option>
+                        <option value="AB+">AB Rh(+)</option><option value="AB-">AB Rh(-)</option>
+                        <option value="0+">0 Rh(+)</option><option value="0-">0 Rh(-)</option>
+                    </select>
+                </div>
+                <!-- SİGORTA BİLGİSİ EKLENDİ -->
+                <div class="input-group">
+                    <label for="sigorta">Sigorta Türü</label>
+                    <select id="sigorta" required>
+                        <option value="">Seçiniz...</option>
+                        <option value="SGK">SGK (SSK/Bağ-Kur/Emekli Sandığı)</option>
+                        <option value="Özel Sigorta">Özel Sağlık Sigortası</option>
+                        <option value="Yok">Sigortam Yok</option>
+                    </select>
+                </div>
+
+                <div class="input-group"><label for="telefon">Telefon Numarası</label><input type="tel" id="telefon" required placeholder="05XX XXX XX XX"></div>
+                <div class="input-group"><label for="boy">Boy (cm)</label><input type="number" id="boy" required placeholder="Örn: 175"></div>
+                
+                <div class="input-group full-width"><label for="kilo">Kilo (kg)</label><input type="number" id="kilo" required placeholder="Örn: 70"></div>
+                <div class="input-group full-width"><label for="adres">Açık Adres</label><textarea id="adres" rows="2" required placeholder="İl, ilçe, mahalle ve sokak bilgisi giriniz..."></textarea></div>
+                <div class="input-group full-width"><label for="hastaliklar">Kronik Hastalıklar ve Alerjiler</label><textarea id="hastaliklar" rows="2" placeholder="Örn: Astım, Penisilin alerjisi, Şeker vb."></textarea></div>
+            </div>
+            <button type="submit">Bilgileri Kaydet ve Sisteme Gir</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('kisiselBilgiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const aktifTC = localStorage.getItem('aktifKullaniciTC'); 
+            const profilVerileri = {
+                babaAdi: document.getElementById('babaAdi').value,
+                anneAdi: document.getElementById('anneAdi').value,
+                kanGrubu: document.getElementById('kanGrubu').value,
+                sigorta: document.getElementById('sigorta').value, // Sigorta Eklendi
+                telefon: document.getElementById('telefon').value,
+                boy: document.getElementById('boy').value,
+                kilo: document.getElementById('kilo').value,
+                adres: document.getElementById('adres').value,
+                hastaliklar: document.getElementById('hastaliklar').value
+            };
+            
+            localStorage.setItem('profilVerileri_' + aktifTC, JSON.stringify(profilVerileri));
+            localStorage.setItem('profilTamamlandi_' + aktifTC, 'evet');
+            
+            alert('Kişisel bilgileriniz başarıyla sisteme işlendi!');
+            window.location.href = 'anasayfa.html';
+        });
+    </script>
+</body>
+</html>

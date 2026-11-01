@@ -1,0 +1,740 @@
+/* =========================================
+   GENEL AYARLAR VE GİRİŞ EKRANI
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url('arkaplan.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    z-index: 2;
+    position: relative;
+    text-align: center;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #34495e;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+    font-size: 14px;
+}
+
+.input-group input:focus {
+    border-color: #3498db;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.link {
+    display: block;
+    margin-top: 20px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.link:hover {
+    color: #2980b9;
+}
+
+/* =========================================
+   SAĞLIK ASİSTANIM - PORTAL ANA DÜZENİ
+   ========================================= */
+body.portal-body {
+    background-color: #e6f0fa;
+    background-image: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.portal-layout {
+    display: flex;
+    flex: 1;
+}
+
+.portal-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* =========================================
+   ÜST HEADER (Koyu Mavi - Kırmızı Şerit)
+   ========================================= */
+.portal-header {
+    background-color: #0d6efd;
+    border-bottom: 4px solid #dc3545;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.portal-logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.portal-logo i {
+    color: #ffcccc;
+}
+
+.search-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 10px 16px;
+    width: 380px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-box input,
+.search-box i {
+    color: #ffffff;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.search-box input::placeholder {
+    color: #e2e8f0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right .action-icon,
+.header-right .user-menu-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.action-icon {
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+.action-icon:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.notification-icon .badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Profil Menüsü */
+.user-menu-container {
+    position: relative;
+    margin-left: 10px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.header-right .user-menu-btn span,
+.header-right .user-menu-btn i {
+    color: #ffffff;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px; /* Sıkışıp küçülmesini engeller */
+    flex-shrink: 0;  /* Esnemeyi durdurup tam yuvarlak kalmasını sağlar */
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f8fafc;
+    color: #0284c7;
+}
+
+.show {
+    display: block !important;
+}
+
+/* =========================================
+   SOL MENÜ
+   ========================================= */
+.side-navbar {
+    width: 75px; /* Sadece ikonların görüneceği kapalı boyut */
+    background-color: #dbeafe;
+    border-right: 2px solid #93c5fd;
+    padding: 25px 0;
+    overflow: hidden; /* Dışarı taşan yazıları gizler */
+    white-space: nowrap; /* Yazıların alt satıra düşmesini engeller */
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Yumuşak açılma animasyonu */
+}
+
+/* Menünün üzerine gelindiğinde genişlemesi */
+.side-navbar:hover {
+    width: 240px; /* Açıldığındaki tam boyut */
+}
+
+.side-navbar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-navbar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 25px;
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    border-left: 4px solid transparent;
+    border-radius: 0 20px 20px 0; 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.side-navbar ul li.active a,
+.side-navbar ul li a:hover {
+    background-color: #dc3545;
+    color: #ffffff;
+    padding-left: 32px; 
+}
+
+/* =========================================
+   ORTA İÇERİK
+   ========================================= */
+.feature-banner {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border-radius: 16px;
+    padding: 35px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    border: 2px solid #93c5fd;
+    box-shadow: 0 4px 20px rgba(2, 132, 199, 0.2);
+    margin-bottom: 35px;
+}
+
+.banner-text h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.banner-text p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 25px;
+    max-width: 400px;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+.banner-text button {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+    width: auto;
+    margin-top: 0;
+}
+
+.banner-text button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.banner-image {
+    width: 260px;
+    height: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+}
+
+.banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hastane Ziyaretleri */
+.visits-area h2 {
+    font-size: 18px;
+    color: #0a58ca;
+    margin-bottom: 15px;
+}
+
+.visit-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.v-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.v-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.v-date {
+    background-color: #f1f5f9;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+    min-width: 75px;
+}
+
+.v-date span {
+    display: block;
+    font-size: 22px;
+    color: #0284c7;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.v-info h4 {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 4px;
+}
+
+.v-info .clinic {
+    font-size: 13px;
+    color: #0284c7;
+    font-weight: 600;
+}
+
+.v-info .dr {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* =========================================
+   SAĞ PANEL VE BİLEŞENLER
+   ========================================= */
+.portal-sidebar {
+    width: 320px;
+    background-color: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.q-box,
+.enabiz-calendar-box {
+    background-color: #eff6ff;
+    border: 2px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.q-box:hover {
+    border-color: #dc3545;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+}
+
+.q-box i {
+    font-size: 28px;
+}
+
+.q-box span {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+}
+
+/* Takvim Widget */
+.cal-top-bar h4 {
+    color: #0a58ca;
+}
+
+.mini-calendar-widget {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cal-header h4 {
+    font-size: 15px;
+    color: #1e293b;
+}
+
+.cal-header button {
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 15px;
+}
+
+.month-selector i {
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.month-selector i:hover {
+    color: #0284c7;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.days span {
+    padding: 6px 0;
+    border-radius: 6px;
+}
+
+.days b {
+    display: block;
+    font-size: 13px;
+    color: #334155;
+    margin-top: 4px;
+    font-weight: 700;
+}
+
+.days .active {
+    background-color: #ef4444;
+    color: white;
+}
+
+.days .active b {
+    color: white;
+}
+
+.empty-state {
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+    background-color: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* =========================================
+   MODAL (AÇILIR PENCERE) TASARIMLARI
+   ========================================= */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal-box h3 {
+    margin-bottom: 25px;
+    color: #0f172a;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 15px;
+    font-size: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 28px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: #e63946;
+}
+
+.update-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #0284c7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.update-btn:hover {
+    background-color: #0369a1;
+}
+/* =========================================
+   ARAMA ÖNERİLERİ DROPDOWN (Otomatik Tamamlama)
+   ========================================= */
+.arama-onerileri-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    margin-top: 8px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.oneri-oge {
+    padding: 12px 16px;
+    color: #334155;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s;
+}
+
+.oneri-oge:last-child {
+    border-bottom: none;
+}
+
+.oneri-oge:hover {
+    background-color: #f8fafc;
+    color: #0d6efd;
+    font-weight: 600;
+}

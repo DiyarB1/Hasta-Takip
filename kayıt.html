@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sisteme Kayıt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h2>Yeni Hasta Kaydı</h2>
+        
+        <form id="kayitForm">
+            <div class="input-group">
+                <label for="adSoyad">Ad Soyad</label>
+                <input type="text" id="adSoyad" required placeholder="Ad ve Soyadınızı giriniz">
+            </div>
+            <div class="input-group">
+                <label for="tc">TC Kimlik No</label>
+                <input type="text" id="tc" required placeholder="11 Haneli TC Kimlik No" oninput="tcKontrol(this)">
+            </div>
+            <div class="input-group">
+                <label for="dogumTarihi">Doğum Tarihi</label>
+                <input type="date" id="dogumTarihi" required onclick="this.showPicker()">
+            </div>
+
+            <button type="submit">Kayıt Ol</button>
+        </form>
+        
+        <a href="giriş.html" class="link">Zaten kayıtlı mısınız? Sisteme giriş yapın.</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

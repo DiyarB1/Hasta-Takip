@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişi Ekle - SağlıkAsistanım</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-container { max-width: 900px; margin: 40px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .enabiz-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        .enabiz-table th { background: #f8f9fa; color: #212529; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; }
+        .enabiz-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #495057; }
+        .form-grup { margin-bottom: 15px; }
+        .form-grup input { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 8px; outline: none; }
+    </style>
+</head>
+<body class="portal-body" style="background-color: #f4f6f9;">
+
+    <div class="page-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0d6efd; padding-bottom: 10px;">
+            <h2 style="color: #212529;"><i class="fa-solid fa-user-plus" style="color: #dc3545;"></i> Acil Durum Kişileri</h2>
+            <button onclick="window.location.href='anasayfa.html'" style="background: #e9ecef; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; color: #212529;">Ana Sayfaya Dön</button>
+        </div>
+
+        <form id="kisiEkleForm" style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-grup">
+                <label style="font-weight: bold; font-size: 13px; color: #6c757d;">Ad Soyad</label>
+                <input type="text" id="kAd" required>
+            </div>
+            <div class="form-grup">
+                <label style="font-weight: bold; font-size: 13px; color: #6c757d;">Yakınlık Derecesi (Anne, Baba, Eş vb.)</label>
+                <input type="text" id="kYakinlik" required>
+            </div>
+            <div class="form-grup">
+                <label style="font-weight: bold; font-size: 13px; color: #6c757d;">Telefon Numarası</label>
+                <input type="text" id="kTel" required>
+            </div>
+            <div class="form-grup" style="display: flex; align-items: flex-end;">
+                <button type="submit" style="background: #0d6efd; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer;">Kaydet</button>
+            </div>
+        </form>
+
+        <h3 style="margin-top: 40px; font-size: 16px; color: #212529;">Kayıtlı Kişiler Listesi</h3>
+        <table class="enabiz-table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Yakınlık</th>
+                    <th>Telefon</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody id="kisiListeAlani">
+                <tr><td colspan="4" style="text-align: center;">Yükleniyor...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    kisileriYukle();
+
+    document.getElementById('kisiEkleForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const aktifTC = localStorage.getItem('aktifKullaniciTC');
+        
+        if (!aktifTC) {
+            alert("Oturum süreniz dolmuş, lütfen tekrar giriş yapın.");
+            return;
+        }
+
+        const veri = {
+            tc: aktifTC,
+            adSoyad: document.getElementById('kAd').value,
+            yakinlik: document.getElementById('kYakinlik').value,
+            telefon: document.getElementById('kTel').value
+        };
+        
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/kisi', {
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify(veri)
+            });
+            
+            const data = await response.json();
+            if(data.success) {
+                document.getElementById('kisiEkleForm').reset();
+                kisileriYukle();
+            } else {
+                alert("Hata: " + data.message);
+            }
+        } catch(err) {
+            alert("Sunucuya bağlanılamadı. Lütfen 'node server.js' komutunun çalıştığından emin olun.");
+        }
+    });
+});
+
+async function kisileriYukle() {
+    const aktifTC = localStorage.getItem('aktifKullaniciTC');
+    const liste = document.getElementById('kisiListeAlani');
+    
+    if (!aktifTC) return;
+
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/kisi/' + aktifTC);
+        const data = await response.json();
+        
+        if(data.success && data.data.length > 0) {
+            let html = '';
+            data.data.forEach(kisi => {
+                html += `<tr>
+                    <td><strong>${kisi.ad_soyad}</strong></td>
+                    <td>${kisi.yakinlik}</td>
+                    <td>${kisi.telefon}</td>
+                    <td><button onclick="kisiSil(${kisi.id})" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Sil</button></td>
+                </tr>`;
+            });
+            liste.innerHTML = html;
+        } else {
+            liste.innerHTML = '<tr><td colspan="4" style="text-align: center;">Henüz kişi eklenmemiş.</td></tr>';
+        }
+    } catch(err) {
+        liste.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #dc3545;">Veriler çekilemedi. Node.js sunucunuzu yeniden başlatın.</td></tr>';
+    }
+}
+
+async function kisiSil(id) {
+    if(confirm('Kişiyi silmek istediğinize emin misiniz?')) {
+        try {
+            await fetch('http://127.0.0.1:3000/api/kisi/' + id, { method: 'DELETE' });
+            kisileriYukle();
+        } catch (err) {
+            alert('Silme işlemi sırasında sunucu hatası oluştu.');
+        }
+    }
+}
+    </script>
+</body>
+</html>

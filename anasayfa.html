@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SağlıkAsistanım - Dijital Sağlık Portalı</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="portal-body">
+
+    <header class="portal-header">
+        <div class="header-left">
+            <div class="portal-logo">
+                <i class="fa-solid fa-notes-medical"></i> SağlıkAsistanım
+            </div>
+            <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input type="text" id="aramaCubugu" placeholder="Nasıl yardımcı olabilirim? Tahlil, ilaç, randevu ara...">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="action-icon" onclick="bilgiModalAc('Favoriler', 'Favorilere eklenen bir öğe bulunmuyor.', 'fa-star', '#f59e0b')"><i class="fa-regular fa-star"></i></button>
+            <button class="action-icon" onclick="bilgiModalAc('Belgelerim', 'Belgeleriniz Sağlık Bakanlığı sisteminden senkronize ediliyor.', 'fa-folder-open', '#0284c7')"><i class="fa-regular fa-folder-open"></i></button>
+            <button class="action-icon notification-icon" onclick="bilgiModalAc('Bildirimler', 'Şu an için yeni bir bildiriminiz yok.', 'fa-bell', '#ef4444')">
+                <i class="fa-regular fa-bell"></i>
+                <span class="badge">0</span>
+            </button>
+            
+            <div class="user-menu-container">
+                <button class="user-menu-btn" onclick="toggleDropdown()">
+                    <div class="user-avatar"><i class="fa fa-user"></i></div>
+                    <span id="kullaniciAdAlani">YÜKLENİYOR...</span>
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                <div id="userDropdown" class="dropdown-menu">
+                    <a href="#" onclick="ayarlarModalAc(); return false;"><i class="fa-regular fa-id-card"></i> Profil Güncelleme</a>
+                    <a href="#" onclick="ayarlarModalAc(); return false;"><i class="fa-solid fa-sliders"></i> Ayarlar</a>
+                    <a href="giriş.html" style="color: #e74c3c;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıkış Yap</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="portal-layout">
+        <!-- SOL MENÜ -->
+        <nav class="side-navbar">
+            <ul>
+                <li class="active"><a href="#" onclick="window.location.reload()"><i class="fa-solid fa-house-chimney-medical"></i> Ana Sayfa</a></li>
+                <li><a href="#" onclick="bilgiModalAc('Tıbbi Geçmiş', 'Tıbbi geçmişiniz ortadaki listede yer almaktadır.', 'fa-truck-medical', '#0284c7')"><i class="fa-solid fa-truck-medical"></i> Tıbbi Geçmişim</a></li>
+                <li><a href="#" onclick="randevuModalAc()"><i class="fa-solid fa-calendar-check"></i> Randevularım</a></li>
+                <li><a href="tahlillerim.html"><i class="fa-solid fa-microscope"></i> Tahlillerim</a></li>
+                <li><a href="#" onclick="muayeneGoster('E-Reçete Sistemi', 'Tüm İlaçlar', 'Sistem', '-', '-', '-', 'Aktif Reçeteleriniz:\n1. Parol 500mg (Günde 2 kez)\n2. İburamin Cold Şurup (Günde 1 kez)')"><i class="fa-solid fa-prescription-bottle"></i> Reçetelerim</a></li>
+                <li><a href="radyoloji.html"><i class="fa-solid fa-x-ray"></i> Radyoloji</a></li>
+                <li><a href="asitakvimi.html"><i class="fa-solid fa-syringe"></i> Aşı Takvimi</a></li>
+            </ul>
+        </nav>
+
+        <main class="portal-content">
+            <div class="feature-banner">
+                <div class="banner-text">
+                    <h1>Sağlığınız<br>Elinizin Altında</h1>
+                    <p>Tüm teşhis, tedavi ve tahlil süreçlerinizi tek bir noktadan yönetin, sağlığınızı güvence altına alın.</p>
+                    <button onclick="window.location.href='durumbelgesi.html'"><i class="fa-solid fa-file-pdf"></i> Durum Belgesi Al</button>
+                </div>
+                <div class="banner-image">
+                    <img src="arkaplan1.jpg" alt="Sağlık İllüstrasyonu">
+                </div>
+            </div>
+
+            <div class="visits-area">
+                <h2>Muayene ve Teşhis Kayıtları (Detay için tıklayın)</h2>
+                <!-- Veriler veritabanından buraya gelecek -->
+                <div class="visit-cards" id="ziyaretAlani">
+                    <p style="color: #64748b; font-size: 14px;">Kayıtlar yükleniyor...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- SAĞ PANEL -->
+        <aside class="portal-sidebar">
+            <div class="quick-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+    <!-- Organ Bağışı Kutusu -->
+    <div class="q-box" id="organBagisiKutusu" onclick="window.location.href='organbagisi.html'" style="cursor:pointer; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+        <i class="fa-solid fa-hand-holding-heart" style="color: #e63946; font-size: 24px; margin-bottom: 12px; padding: 8px; border: 2px solid #e63946; border-radius: 50%;"></i>
+        <span style="font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 5px;">Organ Bağışı</span>
+        <span style="font-size: 12px; color: #475569; font-weight: normal; text-align: left; line-height: 1.4;">Her bağış, yeni bir hayattır.</span>
+    </div>
+
+    <!-- Nöbetçi Eczane Kutusu -->
+    <div class="q-box" onclick="window.location.href='nobetcieczane.html'" style="cursor:pointer; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+        <i class="fa-solid fa-house-medical-flag" style="color: #2a9d8f; font-size: 24px; margin-bottom: 12px; padding: 8px; border: 2px solid #2a9d8f; border-radius: 50%;"></i>
+        <span style="font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 5px;">Nöbetçi Eczane</span>
+        <span style="font-size: 12px; color: #475569; font-weight: normal; text-align: left; line-height: 1.4;">Bölgenizdeki nöbetçi eczaneler.</span>
+    </div>
+
+    <!-- Kişi Ekle Kutusu -->
+    <div class="q-box" onclick="window.location.href='kisiekle.html'" style="cursor:pointer; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+        <i class="fa-solid fa-phone-volume" style="color: #1e3a8a; font-size: 24px; margin-bottom: 12px; padding: 8px; border: 2px solid #1e3a8a; border-radius: 50%;"></i>
+        <span style="font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 5px;">Kişi Ekle</span>
+        <span style="font-size: 12px; color: #475569; font-weight: normal; text-align: left; line-height: 1.4;">Acil durumda aranacak kişiler.</span>
+    </div>
+
+    <!-- Ayarlar Kutusu -->
+    <div class="q-box" onclick="ayarlarModalAc()" style="cursor:pointer; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+        <i class="fa-solid fa-user-gear" style="color: #64748b; font-size: 24px; margin-bottom: 12px; padding: 8px; border: 2px solid #64748b; border-radius: 50%;"></i>
+        <span style="font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 5px;">Ayarlar</span>
+        <span style="font-size: 12px; color: #475569; font-weight: normal; text-align: left; line-height: 1.4;">Güvenlik ve profil ayarlarını yönetin.</span>
+    </div>
+</div>
+
+            <div class="mini-calendar-widget">
+                <div class="cal-header">
+                    <h4>Randevu Takvimi</h4>
+                    <button onclick="randevuModalAc()">+</button>
+                </div>
+                <div class="cal-body">
+                    <div class="month-selector">
+                        <i class="fa-solid fa-chevron-left" onclick="bilgiModalAc('Takvim', 'Önceki aya ait randevu verileri sunucudan yükleniyor...', 'fa-calendar-days', '#0284c7')"></i>
+                        <span>Ekim 2026</span>
+                        <i class="fa-solid fa-chevron-right" onclick="bilgiModalAc('Takvim', 'Sonraki aya ait randevu verileri sunucudan yükleniyor...', 'fa-calendar-days', '#0284c7')"></i>
+                    </div>
+                    
+                    <div id="aktifRandevuAlani">
+                        <p class="empty-state" id="randevuYokMesaji">Yaklaşan randevunuz bulunmamaktadır.</p>
+                        <div id="randevuKarti" style="display: none; background: #f0f9ff; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #bae6fd; text-align: left;">
+                            <strong style="color: #0284c7; font-size: 15px;" id="rBolum">Bölüm</strong><br>
+                            <span style="font-size: 13px; color: #475569; font-weight: bold;" id="rTarihSaat">Tarih - Saat</span>
+                            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                                <button onclick="randevuModalAc()" style="flex: 1; background: #f59e0b; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;">Değiştir</button>
+                                <button onclick="randevuIptal()" style="flex: 1; background: #ef4444; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;">İptal Et</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- MODALLAR -->
+    <div id="ayarlarModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 600px;">
+            <span class="close-modal" onclick="ayarlarModalKapat()">&times;</span>
+            <h3>Kişisel Bilgi Ayarları</h3>
+            <form id="ayarlarForm" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <div class="input-group"><label>Baba Adı</label><input type="text" id="ayarBabaAdi" required></div>
+                    <div class="input-group"><label>Kan Grubu</label><input type="text" id="ayarKanGrubu" required></div>
+                    <div class="input-group"><label>Boy (cm)</label><input type="number" id="ayarBoy" required></div>
+                </div>
+                <div>
+                    <div class="input-group"><label>Anne Adı</label><input type="text" id="ayarAnneAdi" required></div>
+                    <div class="input-group"><label>Telefon</label><input type="text" id="ayarTelefon" required></div>
+                    <div class="input-group"><label>Kilo (kg)</label><input type="number" id="ayarKilo" required></div>
+                </div>
+                <div style="grid-column: span 2;">
+                    <div class="input-group">
+                        <label>Sigorta Türü (Kayıt / SGK / Sigorta)</label>
+                        <select id="ayarSigorta" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: white;">
+                            <option value="">Seçiniz...</option>
+                            <option value="SGK">SGK (SSK / Bağ-Kur / Emekli Sandığı)</option>
+                            <option value="Özel Sigorta">Özel Sağlık Sigortası</option>
+                            <option value="Yok">Sigortam Yok</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="grid-column: span 2;">
+                    <div class="input-group"><label>Adres</label><input type="text" id="ayarAdres" required></div>
+                    <div class="input-group"><label>Hastalıklar</label><input type="text" id="ayarHastaliklar"></div>
+                    <button type="submit" class="update-btn">Tüm Bilgileri Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- RANDEVU MODALI (Doktor seçimi eklendi) -->
+    <div id="randevuModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 400px;">
+            <span class="close-modal" onclick="randevuModalKapat()">&times;</span>
+            <h3 style="color: #0284c7; margin-bottom: 20px;"><i class="fa-solid fa-calendar-check"></i> Randevu İşlemleri</h3>
+            <form id="randevuForm">
+                <div class="input-group">
+                    <label>Poliklinik Seçin</label>
+                    <select id="randevuBolum" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: white;">
+                        <option value="">Seçiniz...</option>
+                        <option value="Dahiliye">Dahiliye (İç Hastalıkları)</option>
+                        <option value="Göz Hastalıkları">Göz Hastalıkları</option>
+                        <option value="Kulak Burun Boğaz">Kulak Burun Boğaz</option>
+                        <option value="Ortopedi">Ortopedi</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Doktor Seçin</label>
+                    <select id="randevuDoktor" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: white;">
+                        <option value="">Seçiniz...</option>
+                        <option value="Dr. Ahmet Yılmaz">Dr. Ahmet Yılmaz</option>
+                        <option value="Dr. Ayşe Kaya">Dr. Ayşe Kaya</option>
+                        <option value="Dr. Mehmet Demir">Dr. Mehmet Demir</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>Tarih</label><input type="date" id="randevuTarih" required></div>
+                <div class="input-group"><label>Saat</label><input type="time" id="randevuSaat" required></div>
+                <button type="submit" class="update-btn" style="background-color: #10b981;">Randevuyu Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="muayeneModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px;">
+            <span class="close-modal" onclick="document.getElementById('muayeneModal').style.display='none'">&times;</span>
+            <h3 style="color: #0284c7; font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-notes-medical"></i> Tıbbi Geçmiş / Muayene Kaydı</h3>
+            <div style="font-size: 14px; color: #334155; line-height: 1.6; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <p><strong style="color:#0f172a;">Hastane:</strong> <span id="mHastane"></span></p>
+                <p><strong style="color:#0f172a;">Bölüm & Doktor:</strong> <span id="mBolumDr"></span></p>
+                <p><strong style="color:#0f172a;">Tarih:</strong> <span id="mTarih"></span></p>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #cbd5e1;">
+                <p><strong style="color:#ef4444;">Teşhis:</strong> <span id="mTeshis"></span></p>
+                <p><strong style="color:#0f172a;">Muayene Notları:</strong> <span id="mNotlar"></span></p>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #cbd5e1;">
+                <p><strong style="color:#10b981;">Reçete Takibi:</strong><br><span id="mRecete" style="white-space: pre-line; display: block; margin-top: 5px; padding: 10px; background: white; border-radius: 6px; border: 1px dashed #10b981;"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bilgiModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 350px; text-align: center; padding: 30px;">
+            <span class="close-modal" onclick="document.getElementById('bilgiModal').style.display='none'">&times;</span>
+            <i id="bilgiİkon" class="fa-solid fa-circle-info" style="font-size: 45px; margin-bottom: 15px;"></i>
+            <h3 id="bilgiBaslik" style="color: #0f172a; margin-bottom: 10px; font-size: 18px; border-bottom: none; padding-bottom: 0;">Başlık</h3>
+            <p id="bilgiIcerik" style="color: #475569; font-size: 14px; line-height: 1.5;"></p>
+            <button onclick="document.getElementById('bilgiModal').style.display='none'" class="update-btn" style="margin-top: 20px;">Tamam</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
